@@ -69,6 +69,10 @@ func (g GitHubIssue) getLinkedIssue(ctx context.Context, client *github.Client) 
 				next := bodySplit[i + 1]
 				if match := issue.FindString(next); match != "" {
 					id, _ := strconv.Atoi(match[1:])
+					// if issue number is 0 return nil as 0 is not a valid issue number
+					if id == 0 {
+						return nil, nil
+					}
 					return &id, nil
 				}
 			}
